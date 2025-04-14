@@ -14,7 +14,7 @@ public class PropertyInfo
        public required string Type { get; set; }  
        
        // TypeScript equivalent type
-       public string TypeScriptType { get; set; }
+       public string? TypeScriptType { get; set; }
        
        // Is nullable?                  
        public bool IsNullable { get; set; } 
