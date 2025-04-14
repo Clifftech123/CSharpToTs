@@ -13,13 +13,3 @@ When building applications with a .NET backend and TypeScript frontend (React, A
 - ✨ Optional validation schemas (Zod/Yup)
 - 🛠️ Simple CLI interface
 
-## Example Workflow
-
-1. Define your C# model:
-```csharp
-public class User
-{
-    public int Id { get; set; }
-    public string Name { get; set; }
-    public DateTime CreatedAt { get; set; }
-}
