@@ -1,0 +1,69 @@
+// Generated Yup schema for {{ model.name }}
+import * as yup from 'yup';
+
+export const {{ model.name }}Schema = yup.object({
+{{~ for prop in model.properties ~}}
+  {{ prop.name | string.downcase | string.capitalize }}: {{ map_to_yup_type prop }},
+{{~ end ~}}
+});
+
+export type {{ model.name }} = yup.InferType<typeof {{ model.name }}Schema>;
+
+{{~ func map_to_yup_type(prop) ~}}
+{{~ if prop.typeScriptType == "string" ~}}
+  {{~ result = "yup.string()" ~}}
+  {{~ for attr in prop.attributes ~}}
+    {{~ if attr.name == "Required" ~}}
+      {{~ result = result + ".required('This field is required')" ~}}
+    {{~ else if attr.name == "MinLength" ~}}
+      {{~ result = result + ".min(" + attr.arguments[""] + ", 'Minimum length is " + attr.arguments[""] + "')" ~}}
+    {{~ else if attr.name == "MaxLength" ~}}
+      {{~ result = result + ".max(" + attr.arguments[""] + ", 'Maximum length is " + attr.arguments[""] + "')" ~}}
+    {{~ else if attr.name == "EmailAddress" ~}}
+      {{~ result = result + ".email('Invalid email address')" ~}}
+    {{~ else if attr.name == "RegularExpression" ~}}
+      {{~ result = result + ".matches(" + attr.arguments[""] + ", 'Invalid format')" ~}}
+    {{~ end ~}}
+  {{~ end ~}}
+  {{~ if !prop.isRequired ~}}
+    {{~ result = result + ".optional()" ~}}
+  {{~ end ~}}
+  {{~ return result ~}}
+{{~ else if prop.typeScriptType == "number" ~}}
+  {{~ result = "yup.number()" ~}}
+  {{~ for attr in prop.attributes ~}}
+    {{~ if attr.name == "Required" ~}}
+      {{~ result = result + ".required('This field is required')" ~}}
+    {{~ else if attr.name == "Range" ~}}
+      {{~ if attr.arguments["minimum"] ~}}
+        {{~ result = result + ".min(" + attr.arguments["minimum"] + ", 'Minimum value is " + attr.arguments["minimum"] + "')" ~}}
+      {{~ end ~}}
+      {{~ if attr.arguments["maximum"] ~}}
+        {{~ result = result + ".max(" + attr.arguments["maximum"] + ", 'Maximum value is " + attr.arguments["maximum"] + "')" ~}}
+      {{~ end ~}}
+    {{~ end ~}}
+  {{~ end ~}}
+  {{~ if !prop.isRequired ~}}
+    {{~ result = result + ".optional()" ~}}
+  {{~ end ~}}
+  {{~ return result ~}}
+{{~ else if prop.typeScriptType == "boolean" ~}}
+  {{~ result = "yup.boolean()" ~}}
+  {{~ if prop.isRequired ~}}
+    {{~ result = result + ".required('This field is required')" ~}}
+  {{~ else ~}}
+    {{~ result = result + ".optional()" ~}}
+  {{~ end ~}}
+  {{~ return result ~}}
+{{~ else if prop.typeScriptType contains "[]" ~}}
+  {{~ result = "yup.array()" ~}}
+  {{~ if prop.isRequired ~}}
+    {{~ result = result + ".required('This field is required')" ~}}
+  {{~ else ~}}
+    {{~ result = result + ".optional()" ~}}
+  {{~ end ~}}
+  {{~ return result ~}}
+{{~ else ~}}
+  {{~ return "yup.mixed()" ~}}
+{{~ end ~}}
+{{~ end ~}}

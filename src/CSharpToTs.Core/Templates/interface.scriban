@@ -1,0 +1,6 @@
+// Generated TypeScript interface for {{ model.name }}
+export interface {{ model.name }} {
+{{~ for prop in model.properties ~}}
+  {{ prop.name | string.downcase | string.capitalize }}: {{ prop.typeScriptType }}{{ if prop.isOptional }}?{{ end }};
+{{~ end ~}}
+}

@@ -1,0 +1,47 @@
+// Generated Zod schema for {{ model.name }}
+import { z } from 'zod';
+
+export const {{ model.name }}Schema = z.object({
+{{~ for prop in model.properties ~}}
+  {{ prop.name | string.downcase | string.capitalize }}: {{ map_to_zod_type prop }},
+{{~ end ~}}
+});
+
+export type {{ model.name }} = z.infer<typeof {{ model.name }}Schema>;
+
+{{~ func map_to_zod_type(prop) ~}}
+{{~ if prop.typeScriptType == "string" ~}}
+  {{~ if has_attribute(prop, "Required") ~}}
+    z.string()
+  {{~ else ~}}
+    z.string().optional()
+  {{~ end ~}}
+{{~ else if prop.typeScriptType == "number" ~}}
+  {{~ if has_attribute(prop, "Required") ~}}
+    z.number()
+  {{~ else ~}}
+    z.number().optional()
+  {{~ end ~}}
+{{~ else if prop.typeScriptType == "boolean" ~}}
+  {{~ if has_attribute(prop, "Required") ~}}
+    z.boolean()
+  {{~ else ~}}
+    z.boolean().optional()
+  {{~ end ~}}
+{{~ else if prop.typeScriptType == "any" ~}}
+  z.any()
+{{~ else if prop.typeScriptType contains "[]" ~}}
+  z.array(z.{{ prop.typeScriptType | string.remove "[]" }})
+{{~ else ~}}
+  z.any()
+{{~ end ~}}
+{{~ end ~}}
+
+{{~ func has_attribute(prop, attr_name) ~}}
+{{~ for attr in prop.attributes ~}}
+  {{~ if attr.name == attr_name ~}}
+    {{~ return true ~}}
+  {{~ end ~}}
+{{~ end ~}}
+{{~ return false ~}}
+{{~ end ~}}

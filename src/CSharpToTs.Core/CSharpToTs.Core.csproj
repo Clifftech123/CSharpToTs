@@ -4,6 +4,17 @@
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+  <OutputType>Exe</OutputType>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>tsgen</ToolCommandName>
+    <PackageId>CSharpToTs</PackageId>
+    <Version>1.0.0</Version>
+    <Authors> Isaiah Clifford Opoku </Authors>
+    <Description>Generate TypeScript interfaces from C# models with optional Zod/Yup validation</Description>
+    <PackageTags>typescript;generator;dotnet-tool;zod;validation</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/Clifftech123/CSharpToTs</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Clifftech123/CSharpToTs</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
