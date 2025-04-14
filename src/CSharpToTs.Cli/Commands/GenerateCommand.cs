@@ -28,6 +28,7 @@ namespace CSharpToTs.Cli.Commands
             var watchOption = new Option<bool>(
                 name: "--watch",
                 description: "Watch for changes in input directory");
+        
             AddOption(watchOption);
 
 
