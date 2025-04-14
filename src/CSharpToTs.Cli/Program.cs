@@ -25,6 +25,10 @@ namespace CSharpToTs.Cli
             services.AddSingleton<ITemplateService>(provider => 
                 new TemplateService(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates")));
             
+            // Register commands
+            services.AddSingleton<GenerateCommand>();
+           ;
+            
             var serviceProvider = services.BuildServiceProvider();
             
             // Create root command
@@ -32,7 +36,7 @@ namespace CSharpToTs.Cli
             
             // Add subcommands
             rootCommand.AddCommand(serviceProvider.GetRequiredService<GenerateCommand>());
-         
+           
             
             // Execute command
             return await rootCommand.InvokeAsync(args);
